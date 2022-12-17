@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>Image Generator</title>
+  </head>
+  <body>
+  
+  <script>
+   function generateImage(layer1, layer2, layer3) {
+  // create canvas element
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // create image objects for each selected layer
+  const images = [];
+  if (layer1) {
+    const image1 = new Image();
+    image1.src = 'layer1.png';
+    images.push(image1);
+  }
+  if (layer2) {
+    const image2 = new Image();
+    image2.src = 'layer2.png';
+    images.push(image2);
+  }
+  if (layer3) {
+    const image3 = new Image();
+    image3.src = 'layer3.png';
+    images.push(image3);
+  }
+
+  // draw images onto canvas
+  let x = 0;
+  images.forEach((image) => {
+    ctx.drawImage(image, x, 0);
+    x += image.width;
+  });
+
+  // convert canvas to data URI and return
+  return canvas.toDataURL();
+}
+</script>
+  
+  
+    <h1>Image Generator</h1>
+    <p>Choose the layers you want to include in your image:</p>
+    <form>
+      <input type="checkbox" id="layer1" name="layer1" value="layer1"> Layer 1<br>
+      <input type="checkbox" id="layer2" name="layer2" value="layer2"> Layer 2<br>
+      <input type="checkbox" id="layer3" name="layer3" value="layer3"> Layer 3<br>
+      <input type="submit" value="Generate Image">
+    </form>
+    <p>Preview:</p>
+    <img id="preview" src="#" alt="Generated image preview">
+    <p>Download your image:</p>
+    <a href="#" id="download-link">Download</a>
+    <script>
+      // handle form submission
+      const form = document.querySelector('form');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        // get selected layers
+        const layer1 = document.querySelector('#layer1').checked;
+        const layer2 = document.querySelector('#layer2').checked;
+        const layer3 = document.querySelector('#layer3').checked;
+        // generate image using selected layers
+        const imageData = generateImage(layer1, layer2, layer3);
+        // update preview and download link with image data
+        const preview = document.querySelector('#preview');
+        preview.src = imageData;
+        const downloadLink = document.querySelector('#download-link');
+        downloadLink.href = imageData;
+        downloadLink.download = 'generated-image.png';
+      });
+    </script>
+  </body>
+ 
+
+  
+</html>
